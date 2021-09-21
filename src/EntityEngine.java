@@ -13,8 +13,9 @@ class EntityCreator {
     CharacterClass playerClass;
     int entityCurrHP, entityMaxHP, strength, dexterity, constitution, intelligence, charisma, currXP,
             currLevel, nextLevelXP;
+    //initializes any entity type with a base level and bonus stats, this is not a static method due to multiple
+    //objects of mobs
 
-    boolean isCharacter = false;
     public EntityCreator(){
         strength = DiceRoll.bonusRoll();
         dexterity = DiceRoll.bonusRoll();
@@ -30,15 +31,17 @@ class CharacterCreator extends EntityCreator {
 
     public CharacterCreator(String name, CharacterClass playerClass){
         super();
-        //TODO set player health to be a random number based on class
-        // use healthRoll method in DiceRoll.java
+        super.entityCurrHP = DiceRoll.healthRoll(playerClass);
         super.entityMaxHP = entityCurrHP;
         super.playerClass = playerClass;
-
         super.name = name;
     }
 }
 
 class MobCreator extends EntityCreator {
+
+}
+
+class CharacterUpdater {
 
 }

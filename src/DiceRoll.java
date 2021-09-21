@@ -53,7 +53,17 @@ public class DiceRoll {
 
     public static int healthRoll(CharacterClass player){
         //TODO return player health based on player class
-        return 0;
+        switch (player) {
+            case BARBARIAN:
+                return roll(Dice.D12);
+            case FIGHTER:
+                return roll(Dice.D10);
+            case ROGUE:
+            case WARLOCK:
+            case DRUID:
+                return roll(Dice.D8);
+        }
+        return roll(Dice.D8);
     }
 
     public static void main(String[] args){
