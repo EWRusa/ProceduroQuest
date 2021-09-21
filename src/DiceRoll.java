@@ -51,7 +51,7 @@ public class DiceRoll {
         else return 0;
     }
 
-    public static int healthRoll(CharacterClass player){
+    public static int healthRoll(EntityClass player){
         //TODO return player health based on player class
         switch (player) {
             case BARBARIAN:
