@@ -35,6 +35,9 @@ class CharacterCreator extends EntityCreator {
         super.entityMaxHP = entityCurrHP;
         super.playerClass = playerClass;
         super.name = name;
+
+        //TODO call character saver after creation
+        //possibly save in file?
     }
 }
 
