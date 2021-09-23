@@ -2,14 +2,13 @@ import java.util.ArrayList;
 
 public class CombatEngine {
     ArrayList<MobManager> fightableMobs = new ArrayList<>();
-    public CombatEngine() {
+    CharacterManager playerCharacter;
+    public CombatEngine(String name, EntityClass playerClass) {
+        playerCharacter = new CharacterManager(name, playerClass);
         //initialize character entity here for health checking
     }
 
     public void combatEncounter() {
-
-    }
-    public void mobEncounter() {
 
     }
     public void bossEncounter(){

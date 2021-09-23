@@ -3,7 +3,7 @@ public class EntityManager {
     //and current level
     protected String name;
     protected EntityClass entityClass;
-    protected int entityCurrHP, entityMaxHP, strength, dexterity, constitution, intelligence, charisma;
+    protected int entityCurrHP, entityMaxHP, strength, dexterity, constitution, intelligence, charisma, armorClass;
     /**
      * Initializes an entity of any type (player, mob) and stores its values
      * Character is a child class that behaves slightly differently with the ability to level up (XP)
