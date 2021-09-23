@@ -1,7 +1,7 @@
 public class CharacterManager extends EntityManager {
     protected int currXP, currLevel, nextLevelXP;
     /**
-     * Inventory functions as follows: limited inventory slots (5 for now, change later?)
+     * Inventory functions as follows: limited inventory slots (4 for now, change later?)
      * row0: Item names eg. Spear, Flail,Fire Spell
      * row1: Item rolls eg. D8, D10, D6,
      */
