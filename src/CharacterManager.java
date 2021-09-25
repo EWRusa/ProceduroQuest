@@ -1,28 +1,21 @@
 public class CharacterManager extends EntityManager {
     protected int currXP, currLevel, nextLevelXP;
     /**
-     * Inventory functions as follows: limited inventory slots (5 for now, change later?)
-     * row0: Item names eg. Spear, Flail,Fire Spell
-     * row1: Item rolls eg. D8, D10, D6,
-     */
-    protected Object[][] inventory = new Object[2][4];
-    /**
      * constructor for character manager, allows for player selected name and class, also holds level system
      * for character only, calls character level for spawning new mobs with that are balanced in health compared to
      * a player
      */
 
     public CharacterManager(String name, EntityClass playerClass) {
-        super();
+        super(name);
         currLevel = 1;
         currXP = 0;
         nextLevelXP = 10;
-        super.entityCurrHP = DiceRoll.healthRoll(playerClass);
         super.entityMaxHP = entityCurrHP;
         super.entityClass = playerClass;
-        super.name = name;
-        setInventory(playerClass);
-        setArmorClass(playerClass);
+        setInventory(entityClass);
+        setArmorClass(entityClass);
+        super.entityCurrHP = DiceRoll.healthRoll(entityClass);
     }
     // addXP function called after enemy death, also handles leveling and HP bonuses
     public void addXP (int XPtoAdd) {
@@ -40,46 +33,9 @@ public class CharacterManager extends EntityManager {
 
     /**
      * setup method for player inventory (passes player class to specify weapons)
+     * sets player weapons and dice damage values
      */
-
-    private void setInventory(EntityClass playerClass) {
-        switch (playerClass) {
-            case BARBARIAN:
-                inventory[0][0] = NormalWeapon.Axe;
-                inventory[1][0] = Dice.D12;
-                inventory[0][1] = NormalWeapon.Club;
-                inventory[1][1] = Dice.D8;
-                break;
-            case FIGHTER:
-                inventory[0][0] = NormalWeapon.Longsword;
-                inventory[1][0] = Dice.D10;
-                inventory[0][1] = NormalWeapon.Dagger;
-                inventory[1][1] = Dice.D6;
-                break;
-            case ROGUE:
-                inventory[0][0] = NormalWeapon.Rapier;
-                inventory[1][0] = Dice.D10;
-                inventory[0][1] = NormalWeapon.Dagger;
-                inventory[1][1] = Dice.D6;
-                break;
-            case DRUID:
-                inventory[0][0] = NormalWeapon.Shortsword;
-                inventory[1][0] = Dice.D8;
-                inventory[0][1] = MagicWeapon.Vine;
-                inventory[1][1] = Dice.D8;
-                inventory[0][2] = MagicWeapon.Splinter;
-                inventory[1][2] = Dice.D10;
-                break;
-            case WARLOCK:
-                inventory[0][0] = NormalWeapon.Shortsword;
-                inventory[1][0] = Dice.D8;
-                inventory[0][1] = MagicWeapon.Fireball;
-                inventory[1][1] = Dice.D10;
-                inventory[0][2] = MagicWeapon.Plague;
-                inventory[1][2] = Dice.D10;
-                break;
-        }
-    }
+    //sets armor class of player based on player class
 
     private void setArmorClass(EntityClass playerClass){
         switch (playerClass) {
@@ -109,11 +65,25 @@ public class CharacterManager extends EntityManager {
             System.exit(1);
         }
         return false;
-     }
-}
-enum NormalWeapon {
-    Club, Longsword, Axe, Dagger, Rapier, Shortsword
-}
-enum MagicWeapon {
-    Fireball, Vine, Plague, Splinter
+    }
+
+    @Override
+    public void setEntityCurrHP(int HPtoChange) {
+        //prevents health change (if positive) from going over maximum health
+        if (HPtoChange + getEntityCurrHP() > entityMaxHP) {
+            int overflowPrevention = (getEntityCurrHP() + HPtoChange) - entityMaxHP;
+            HPtoChange = HPtoChange- overflowPrevention;
+        }
+        entityCurrHP += HPtoChange;
+        isDead();
+    }
+
+    public static void main(String[] args){
+        CharacterManager player = new CharacterManager("test", EntityClass.BARBARIAN);
+        System.out.println(player.getName() + ":" + player.getClass());
+        System.out.println(player.getEntityCurrHP());
+        player.setEntityCurrHP(player.getEntityCurrHP());
+        System.out.println(player.getEntityCurrHP());
+        player.setEntityCurrHP(player.getEntityCurrHP() * -1);
+    }
 }

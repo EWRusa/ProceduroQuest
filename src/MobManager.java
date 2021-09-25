@@ -1,40 +1,64 @@
 import java.util.Random;
 
 public class MobManager extends EntityManager {
-    protected EntityClass mobClass;
+    //Constructors for generating a random mob
     public MobManager() {
-        this(1);
+        this(1, "Skeleton");
     }
-    public MobManager(int level) {
-        super();
+    public MobManager(int level, String name) {
+        super(name);
         super.entityCurrHP = 0;
         setMobClass();
+        setArmorClass(entityClass);
         for (int i = 0; i < level; i++) {
-            super.entityCurrHP += DiceRoll.healthRoll(mobClass); //adds health based on player level & mob class
+            super.entityCurrHP += DiceRoll.healthRoll(entityClass); //adds health based on player level & mob class
         }
+        super.entityMaxHP = super.entityCurrHP;
 
     }
 
-    protected void setMobClass() {
+    //randomly chooses mob class based on a randomly selected integer
+    private void setMobClass() {
         Random random = new Random();
         int classSelector = random.nextInt(5);
 
         switch (classSelector) {
             case 0:
-                mobClass = EntityClass.BARBARIAN;
+                entityClass = EntityClass.BARBARIAN;
                 break;
             case 1:
-                mobClass = EntityClass.FIGHTER;
+                entityClass = EntityClass.FIGHTER;
                 break;
             case 2:
-                mobClass = EntityClass.ROGUE;
+                entityClass = EntityClass.ROGUE;
                 break;
             case 3:
-                mobClass = EntityClass.DRUID;
+                entityClass = EntityClass.DRUID;
                 break;
             case 4:
             default:
-                mobClass = EntityClass.WARLOCK;
+                entityClass = EntityClass.WARLOCK;
+                break;
+        }
+    }
+
+    //Sets mob armor class based on entity class (lower than respective player armor class)
+    protected void setArmorClass(EntityClass playerClass){
+        switch (playerClass) {
+            case BARBARIAN:
+                armorClass = 11;
+                break;
+            case FIGHTER:
+                armorClass = 9;
+                break;
+            case ROGUE:
+                armorClass = 13;
+                break;
+            case DRUID:
+                armorClass = 6;
+                break;
+            case WARLOCK:
+                armorClass = 7;
                 break;
         }
     }
