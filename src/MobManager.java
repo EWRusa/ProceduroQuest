@@ -9,6 +9,7 @@ public class MobManager extends EntityManager {
         super(name);
         super.entityCurrHP = 0;
         setMobClass();
+        setInventory(entityClass);
         setArmorClass(entityClass);
         for (int i = 0; i < level; i++) {
             super.entityCurrHP += DiceRoll.healthRoll(entityClass); //adds health based on player level & mob class

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class CombatEngine {
@@ -99,6 +100,10 @@ public class CombatEngine {
                 playerHeal();
             }
 
+            //create loop to call enemy attack turn (I'm not making them heal that's dumb)
+            for (int i = 0; i < fightableMobs.size(); i++) {
+                monsterFight(i);
+            }
             //LAST LINE CALLS UNTIL ALL ENEMIES ARE DEAD
             encounterEngine();
         } else {
@@ -128,7 +133,7 @@ public class CombatEngine {
         }
         return i;
     }
-
+    //method for player to damage a mob(defaults to mob 0)
     private void playerFight() {
         Scanner scnr = new Scanner(System.in);
         try {
@@ -146,9 +151,20 @@ public class CombatEngine {
                             playerCharacter.inventory.get(i-1), hitDamage, fightableMobs.size());
                     fightableMobs.get(0).setEntityCurrHP(hitDamage * -1);
                     if (fightableMobs.get(0).isDead()) {
-
+                        String bossCheck = fightableMobs.get(0).getName();
                         System.out.printf("You killed the %s! %d enemies remain.\n", fightableMobs.remove(0).getName(),
                                 fightableMobs.size());
+                        switch (bossCheck) {
+                            case "MEGAORC":
+                            case "SNAKEMAN":
+                            case "MAGE":
+                            case "BRANDON":
+                                playerCharacter.addXP(20);
+                                break;
+                            default:
+                                playerCharacter.addXP(DiceRoll.roll(Dice.D8));
+                                break;
+                        }
                     }
                 } else System.out.printf("You missed! %d enemies remain\n", fightableMobs.size());
 
@@ -163,7 +179,7 @@ public class CombatEngine {
             playerFight();
         }
     }
-
+    //method to heal player if the player chooses to do so
     private void playerHeal() {
         int hpBefore = playerCharacter.getEntityCurrHP();
         int hpChange = DiceRoll.roll(Dice.D10);
@@ -171,9 +187,24 @@ public class CombatEngine {
         int hpAfter = playerCharacter.getEntityCurrHP();
         System.out.printf("You healed for %d hit points! Putting you at %d hit points!\n", hpAfter - hpBefore, hpAfter);
     }
-    public static void main(String[] args){
-        CombatEngine testCombat = new CombatEngine("testo", EntityClass.WARLOCK);
+
+    //method for monster to attack player
+    private void monsterFight(int monster) {
+        Random monsterRoll = new Random();
+        int itemSelection = monsterRoll.nextInt(fightableMobs.get(monster).inventory.size());
+        int toHit = DiceRoll.roll(Dice.D20);
+        int hitDamage = DiceRoll.roll(fightableMobs.get(monster).inventoryDie.get(itemSelection));
+        if (toHit >= playerCharacter.getArmorClass()) {
+            System.out.printf("%s hit you with their %s for %d damage!\n", fightableMobs.get(monster).getName(),
+                    fightableMobs.get(monster).inventory.get(itemSelection), hitDamage);
+            playerCharacter.setEntityCurrHP(hitDamage * -1);
+            System.out.printf("%d hit points left!\n", playerCharacter.getEntityCurrHP());
+        } else System.out.printf("%s missed! %d hit points left!\n", fightableMobs.get(monster).getName(),
+                playerCharacter.getEntityCurrHP());
     }
+    /*public static void main(String[] args){
+        CombatEngine testCombat = new CombatEngine("testo", EntityClass.BARBARIAN);
+    }*/
 }
 enum mobName {
     Goblin, Skeleton, Orc, Human

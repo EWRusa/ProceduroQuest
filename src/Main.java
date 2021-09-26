@@ -2,13 +2,16 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-
+    public Main() {
+        String[] args = {"restart"};
+        main(args);
+    }
     //Main used to initialize combat engine with player inputted values and start infinite combat until the player dies
     public static void main(String[] args){
         Scanner scnr = new Scanner(System.in);
-        System.out.println("Please input your character name:");
+        System.out.println("Please input your character name or \"quit\" to quit:");
         String name = scnr.nextLine();
-
+        if (name.equals("quit") || name.equals("\"quit\"")) System.exit(1);
         EntityClass playerClass = selectClass();
         CombatEngine combatEngine = new CombatEngine(name, playerClass);
     }
@@ -17,7 +20,7 @@ public class Main {
         int i;
         try {
             Scanner scnr = new Scanner(System.in);
-                System.out.printf("Select a class:\n" +
+                System.out.print("Select a class:\n" +
                         "1: BARBARIAN\n" +
                         "2: FIGHTER\n" +
                         "3: ROGUE\n" +

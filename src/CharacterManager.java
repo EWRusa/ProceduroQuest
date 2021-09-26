@@ -62,7 +62,7 @@ public class CharacterManager extends EntityManager {
     public boolean isDead() {
         if (entityCurrHP <= 0) {
             System.out.println("You have died.");
-            System.exit(1);
+            Main restart = new Main();
         }
         return false;
     }
