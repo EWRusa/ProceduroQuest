@@ -14,16 +14,16 @@ public class BossManager extends MobManager{
 
     private void setBossClass(String name){
         switch (name) {
-            case "MegaOrc":
+            case "MEGAORC":
                 super.entityClass = EntityClass.BARBARIAN;
                 break;
-            case "Snakeman":
+            case "SNAKEMAN":
                 super.entityClass = EntityClass.FIGHTER;
                 break;
-            case "Mage":
+            case "MAGE":
                 super.entityClass = EntityClass.WARLOCK;
                 break;
-            case "Brandon":
+            case "BRANDON":
                 super.entityClass = EntityClass.ROGUE;
                 break;
             default:

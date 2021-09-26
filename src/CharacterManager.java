@@ -11,11 +11,11 @@ public class CharacterManager extends EntityManager {
         currLevel = 1;
         currXP = 0;
         nextLevelXP = 10;
-        super.entityMaxHP = entityCurrHP;
         super.entityClass = playerClass;
         setInventory(entityClass);
         setArmorClass(entityClass);
         super.entityCurrHP = DiceRoll.healthRoll(entityClass);
+        super.entityMaxHP = entityCurrHP;
     }
     // addXP function called after enemy death, also handles leveling and HP bonuses
     public void addXP (int XPtoAdd) {
@@ -70,11 +70,10 @@ public class CharacterManager extends EntityManager {
     @Override
     public void setEntityCurrHP(int HPtoChange) {
         //prevents health change (if positive) from going over maximum health
-        if (HPtoChange + getEntityCurrHP() > entityMaxHP) {
-            int overflowPrevention = (getEntityCurrHP() + HPtoChange) - entityMaxHP;
-            HPtoChange = HPtoChange- overflowPrevention;
-        }
         entityCurrHP += HPtoChange;
+        if (getEntityCurrHP() > entityMaxHP) {
+            entityCurrHP = entityMaxHP;
+        }
         isDead();
     }
 

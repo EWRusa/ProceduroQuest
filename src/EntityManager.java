@@ -12,7 +12,7 @@ public class EntityManager {
      * row1: Item rolls eg. D8, D10, D6,
      */
     protected ArrayList<Object> inventory = new ArrayList<>();
-    protected ArrayList<Object> inventoryDie = new ArrayList<>();
+    protected ArrayList<Dice> inventoryDie = new ArrayList<>();
     /**
      * Initializes an entity of any type (player, mob) and stores its values
      * Character is a child class that behaves slightly differently with the ability to level up (XP)
@@ -36,14 +36,13 @@ public class EntityManager {
     public int getEntityCurrHP() {
         return entityCurrHP;
     }
-    public void setEntityCurrHP(int HPtoChange) {
-        entityCurrHP += HPtoChange;
-    }
+    public void setEntityCurrHP(int HPtoChange) { entityCurrHP += HPtoChange;}
     public int getStrength() { return strength;}
     public int getDexterity() { return dexterity;}
     public int getConstitution() { return constitution;}
     public int getIntelligence() { return intelligence;}
     public int getCharisma() { return charisma;}
+    public int getArmorClass() { return armorClass;}
     public EntityClass getEntityClass() { return entityClass; }
     public String getName() {return name;}
     public boolean isDead() {

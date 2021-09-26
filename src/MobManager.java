@@ -46,19 +46,19 @@ public class MobManager extends EntityManager {
     protected void setArmorClass(EntityClass playerClass){
         switch (playerClass) {
             case BARBARIAN:
-                armorClass = 11;
-                break;
-            case FIGHTER:
                 armorClass = 9;
                 break;
+            case FIGHTER:
+                armorClass = 7;
+                break;
             case ROGUE:
-                armorClass = 13;
+                armorClass = 11;
                 break;
             case DRUID:
-                armorClass = 6;
+                armorClass = 5;
                 break;
             case WARLOCK:
-                armorClass = 7;
+                armorClass = 6;
                 break;
         }
     }
